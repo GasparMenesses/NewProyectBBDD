@@ -29,20 +29,29 @@ def register():
             cursor = conn.cursor(dictionary=True)
 
             try:
+                # Verificar si el usuario ya existe
                 cursor.execute("""
-                    INSERT INTO usuarios (usuario, password_hash)
-                    VALUES (%s, %s)
-                """, (usuario, password_hash))
+                    SELECT usuario
+                    FROM usuarios
+                    WHERE usuario = %s
+                """, (usuario,))
 
-                conn.commit()
-                return redirect(url_for('login'))
+                if cursor.fetchone():
+                    mensaje = "Ese nombre de usuario ya existe. Elegí otro."
+                else:
+                    cursor.execute("""
+                        INSERT INTO usuarios (usuario, password_hash)
+                        VALUES (%s, %s)
+                    """, (usuario, password_hash))
 
+                    conn.commit()
+                    return redirect(url_for('login'))
 
             except Error as e:
 
                 print("ERROR MYSQL:", e)
 
-                mensaje = str(e)
+                mensaje = "Error al registrar usuario"
 
             finally:
                 cursor.close()
