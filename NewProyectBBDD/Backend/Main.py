@@ -148,6 +148,9 @@ def login():
     """, mensaje=mensaje)
 @app.route('/')
 def dashboard():
+    if 'usuario' not in session:
+        return redirect(url_for('login'))
+
     html_layout = """
     <!DOCTYPE html>
     <html lang="es">
