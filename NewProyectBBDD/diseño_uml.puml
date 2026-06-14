@@ -1,0 +1,39 @@
+@startuml
+actor Usuario as User
+
+package "Frontend" {
+  [Navegador / Cliente HTTP] as Browser
+}
+
+package "Backend Flask" {
+  [Main.py] as Main
+  [Reportes Blueprint] as Reportes
+  [database.py\n(get_db_connection)] as DBConn
+}
+
+database "MySQL / deportes_ucu" as DB
+
+User -> Browser : abre URL / o /api/reportes/*
+Browser -> Main : HTTP GET/POST
+Main -> Reportes : enrutamiento de endpoints
+Reportes -> DBConn : obtener conexión
+DBConn -> DB : conectar(host=db, port=3306)
+DB -> DBConn : conexión establecida
+DBConn --> Reportes : objeto conexión
+Reportes -> DB : ejecutar consulta SQL
+DB --> Reportes : resultados
+Reportes --> Main : devolver JSON
+Main --> Browser : HTTP 200 / 400 / 500
+
+note right of DBConn
+  `database.py` carga variables de entorno
+  o recibe variables desde
+  `docker-compose.yml` en el contenedor `web`.
+end note
+
+note left of Main
+  `Main.py` registra blueprints
+  y sirve el dashboard web.
+end note
+
+@enduml
