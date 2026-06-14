@@ -23,7 +23,7 @@ Incluye un servicio web en Python que consulta una base de datos MySQL con tabla
 Abre una terminal en:
 
 ```powershell
-cd C:PycharmProjects\NewProyectBBDD\NewProyectBBDD
+cd NewProyectBBDD
 ```
 
 ### 2. Detener y limpiar cualquier ejecución previa
@@ -79,7 +79,7 @@ Asegúrate de tener Python 3.11 o superior.
 ### 2. Crear entorno virtual y dependencias
 
 ```powershell
-cd C:PycharmProjects\NewProyectBBDD\NewProyectBBDD\Backend
+cd NewProyectBBDD\Backend
 python -m venv venv
 .\venv\Scripts\Activate.ps1
 pip install -r requirements.txt
@@ -96,7 +96,7 @@ Ejemplo de `.env`:
 ```env
 DB_HOST=localhost
 DB_USER=root
-DB_PASSWORD=rootpassword
+DB_PASSWORD=123456ejemplo
 DB_NAME=deportes_ucu
 DB_PORT=3306
 FLASK_APP=Main.py
