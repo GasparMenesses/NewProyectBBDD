@@ -72,7 +72,7 @@ def dashboard():
                     <form id="crear-estudiante-form">
                         <div class="form-group">
                             <label for="doc_nuevo">Documento</label>
-                            <input type="number" id="doc_nuevo" name="documento" placeholder="Ej. 52456789" required />
+                            <input type="number" id="doc_nuevo" name="documento" placeholder="Ej. 52456789" min="1" required />
                         </div>
                         <div class="form-group">
                             <label for="nombre_nuevo">Nombre</label>

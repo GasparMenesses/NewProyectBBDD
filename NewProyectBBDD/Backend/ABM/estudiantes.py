@@ -23,6 +23,14 @@ def crear_estudiante():
     if not all(data.get(campo) for campo in campos):
         return jsonify({"error": "Faltan datos obligatorios"}), 400
 
+    try:
+        documento = int(data["documento"])
+    except (TypeError, ValueError):
+        return jsonify({"error": "Documento inválido"}), 400
+
+    if documento <= 0:
+        return jsonify({"error": "El documento debe ser un número positivo"}), 400
+
     conn = get_db_connection()
     cursor = conn.cursor()
 
@@ -32,7 +40,7 @@ def crear_estudiante():
             (documento, nombre, apellido, correo_electronico, carrera, facultad)
             VALUES (%s, %s, %s, %s, %s, %s)
         """, (
-            data["documento"],
+            documento,
             data["nombre"],
             data["apellido"],
             data["correo_electronico"],
