@@ -70,6 +70,7 @@ button {
     background: rgba(12, 19, 34, 0.92);
     border: 1px solid rgba(255, 255, 255, 0.06);
     border-radius: 24px;
+    -webkit-backdrop-filter: blur(18px);
     backdrop-filter: blur(18px);
     box-shadow: 0 24px 60px rgba(0, 0, 0, 0.2);
     margin-bottom: 40px;
@@ -194,6 +195,11 @@ p {
     line-height: 1.75;
 }
 
+.message-error {
+    color: #FCA5A5;
+    margin: 1rem 0 0;
+}
+
 .btn-grid,
 .grid-two-column,
 .grid-three-column {
@@ -219,6 +225,7 @@ p {
     border-radius: 24px;
     padding: 30px;
     margin-bottom: 30px;
+    -webkit-backdrop-filter: blur(12px);
     backdrop-filter: blur(12px);
     transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
