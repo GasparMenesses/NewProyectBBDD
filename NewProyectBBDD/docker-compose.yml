@@ -12,7 +12,7 @@ services:
       - db_data:/var/lib/mysql
       # Mapeo ordenado alfabéticamente para asegurar el orden de ejecución correcto:
       - ./SQL/schema.sql:/docker-entrypoint-initdb.d/1-schema.sql
-      - ./SQL/seed.sql:/docker-entrypoint-initdb.d/2-seed.sql
+      - ./SQL/data.sql:/docker-entrypoint-initdb.d/2-data.sql
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-prootpassword"]
       interval: 10s

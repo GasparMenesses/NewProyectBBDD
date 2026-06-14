@@ -41,7 +41,7 @@ docker compose up --build
 ```
 
 ### 4. Esperar a que arranque
-- MySQL se inicializa y carga `SQL/schema.sql` y `SQL/seed.sql`
+- MySQL se inicializa y carga `SQL/schema.sql` y `SQL/data.sql`
 - Flask arranca el servidor en `http://localhost:5000`
 
 ### 5. Probar el servicio
