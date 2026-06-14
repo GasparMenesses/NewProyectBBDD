@@ -7,7 +7,7 @@ services:
       MYSQL_ROOT_PASSWORD: rootpassword
       MYSQL_DATABASE: deportes_ucu
     ports:
-      - "3306:3306"
+      - "3309:3306"
     volumes:
       - db_data:/var/lib/mysql
       # Mapeo ordenado alfabéticamente para asegurar el orden de ejecución correcto:
@@ -24,7 +24,7 @@ services:
     container_name: ucu_sports_web
     restart: always
     ports:
-      - "5000:5000"
+      - "5001:5000"  # Usar 5001 en el host para evitar conflicto con un servidor local en 5000
     environment:
       - DB_HOST=db
       - DB_USER=root
