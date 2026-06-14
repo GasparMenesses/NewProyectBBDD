@@ -187,7 +187,7 @@ def dashboard():
                 <form id="crear-asistencia-form">
                     <div class="form-group">
                         <label for="id_inscripcion">ID de Inscripción</label>
-                        <input type="number" id="id_inscripcion" name="id_inscripcion" placeholder="Ej. 1" required />
+                        <input type="number" id="id_inscripcion" name="id_inscripcion" placeholder="Ej. 1" min="1" required />
                     </div>
                     <div class="form-group">
                         <label for="fecha_asistencia">Fecha</label>
@@ -269,6 +269,17 @@ def dashboard():
                     if (['documento', 'id_inscripcion', 'id_actividad'].includes(key)) value = Number(value);
                     payload[key] = value;
                 });
+
+                // Validación cliente: ids numéricos deben ser positivos
+                const numericIds = ['documento', 'id_inscripcion', 'id_actividad'];
+                for (const k of numericIds) {
+                    if (payload[k] !== undefined && (isNaN(payload[k]) || payload[k] <= 0)) {
+                        message.textContent = `El campo ${k} debe ser un número entero positivo`;
+                        message.className = 'message error';
+                        message.style.display = 'block';
+                        return;
+                    }
+                }
 
                 try {
                     const response = await fetch(url, {

@@ -18,6 +18,16 @@ def listar_asistencias():
 @asistencias_bp.route('/api/asistencias', methods=['POST'])
 def registrar_asistencia():
     data = request.json or {}
+    # Validar ids no negativos si se proveen
+    for verificar_campo_id in ("id_asistencia", "id_inscripcion"):
+        if verificar_campo_id in data:
+            try:
+                val = int(data[verificar_campo_id])
+            except (ValueError, TypeError):
+                return jsonify({"error": f"{verificar_campo_id} debe ser un número entero"}), 400
+            if val < 0:
+                return jsonify({"error": f"{verificar_campo_id} no puede ser negativo"}), 400
+            data[verificar_campo_id] = val
 
     if not data.get("id_inscripcion") or not data.get("fecha") or data.get("asistio") is None:
         return jsonify({"error": "Faltan datos obligatorios"}), 400
