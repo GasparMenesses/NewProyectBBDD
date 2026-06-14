@@ -25,13 +25,13 @@ DB --> Reportes : resultados
 Reportes --> Main : devolver JSON
 Main --> Browser : HTTP 200 / 400 / 500
 
-note right of DBConn
+nota de database.py
   `database.py` carga variables de entorno
   o recibe variables desde
   `docker-compose.yml` en el contenedor `web`.
 end note
 
-note left of Main
+nota de Main.py
   `Main.py` registra blueprints
   y sirve el dashboard web.
 end note
