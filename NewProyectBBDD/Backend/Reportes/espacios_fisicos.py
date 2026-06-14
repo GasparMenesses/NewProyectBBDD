@@ -9,7 +9,7 @@ def obtener_reporte():
         SELECT e.ubicacion, e.nombre AS nombre_espacio, COUNT(a.id_actividad) AS cantidad_actividades
         FROM espacio e
         LEFT JOIN actividad a ON e.id_espacio = a.id_espacio
-        GROUP BY e.id_espacio, e.ubicacion, e.nombre
+        GROUP BY e.ubicacion, e.nombre
         ORDER BY cantidad_actividades DESC;
     """
     return ejecutar_consulta_reporte(sql)
