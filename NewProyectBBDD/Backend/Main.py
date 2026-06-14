@@ -35,7 +35,7 @@ def register():
                 """, (usuario, password_hash))
 
                 conn.commit()
-                return redirect(url_for('login'))
+                return "Usuario creado correctamente. Ahora falta crear el login."
 
 
             except Error as e:
