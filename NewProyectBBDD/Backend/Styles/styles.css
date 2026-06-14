@@ -20,6 +20,66 @@
                         rgba(124,58,237,0.15),
                         transparent 40%);
             }
+
+            /* --- Navbar --- */
+            .navbar {
+                position: sticky;
+                top: 0;
+                z-index: 100;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 15px 40px;
+                background: rgba(26, 26, 46, 0.85);
+                backdrop-filter: blur(12px);
+                border-bottom: 1px solid rgba(124, 58, 237, 0.4);
+                box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+                margin-bottom: 40px;
+            }
+
+            .nav-brand {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+            .nav-brand h2 {
+                margin: 0;
+                font-size: 1.5rem;
+                background: linear-gradient(135deg, #06B6D4, #7C3AED);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+            .nav-brand .logo {
+                font-size: 1.8rem;
+            }
+
+            .nav-user {
+                display: flex;
+                align-items: center;
+                gap: 20px;
+                font-size: 1rem;
+            }
+            .user-name {
+                color: #06B6D4;
+                text-shadow: 0 0 8px rgba(6, 182, 212, 0.6);
+            }
+
+            .btn-logout {
+                padding: 8px 16px;
+                background: rgba(239, 68, 68, 0.15);
+                color: #FCA5A5;
+                border: 1px solid rgba(239, 68, 68, 0.4);
+                border-radius: 8px;
+                text-decoration: none;
+                font-weight: bold;
+                transition: 0.3s;
+            }
+            .btn-logout:hover {
+                background: rgba(239, 68, 68, 0.8);
+                color: white;
+                box-shadow: 0 0 15px rgba(239, 68, 68, 0.6);
+                transform: scale(1.05);
+            }
         
             .container {
                 max-width: 1200px;
@@ -59,6 +119,34 @@
                 display: grid;
                 grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
                 gap: 16px;
+            }
+            
+            .grid-three-column {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: 16px;
+            }
+
+            .dashboard-section {
+                background: rgba(13, 13, 26, 0.4);
+                border: 1px solid rgba(6, 182, 212, 0.1);
+                border-radius: 15px;
+                padding: 25px;
+                margin-bottom: 30px;
+                backdrop-filter: blur(10px);
+                transition: 0.3s;
+            }
+            .dashboard-section:hover {
+                border-color: rgba(124, 58, 237, 0.4);
+                box-shadow: 0 0 20px rgba(124, 58, 237, 0.1);
+            }
+
+            .section-title {
+                color: #E5E7EB;
+                border-bottom: 2px solid rgba(6, 182, 212, 0.3);
+                padding-bottom: 8px;
+                margin-top: 0;
+                margin-bottom: 20px;
             }
         
             .form-card {
@@ -124,6 +212,25 @@
                 );
         
                 box-shadow: 0 0 15px rgba(6,182,212,0.5);
+            }
+
+            button.btn-glow {
+                background: linear-gradient(135deg, #7C3AED, #5B21B6);
+                color: white;
+                border: none;
+                border-radius: 10px;
+                padding: 14px;
+                cursor: pointer;
+                font-weight: 600;
+                transition: all 0.3s ease;
+                position: relative;
+                overflow: hidden;
+            }
+            
+            button.btn-glow:hover {
+                background: linear-gradient(135deg, #06B6D4, #0891B2);
+                box-shadow: 0 0 20px rgba(6, 182, 212, 0.6), 0 0 40px rgba(6, 182, 212, 0.2);
+                transform: translateY(-2px) scale(1.02);
             }
         
             .btn {
@@ -207,3 +314,60 @@
                 border-radius: 10px;
                 color: #E0E7FF;
             }
+
+            /* --- Nuevas Notificaciones TOAST --- */
+            .toast-container {
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                z-index: 9999;
+            }
+
+            .toast {
+                padding: 16px 24px;
+                border-radius: 12px;
+                color: #fff;
+                font-weight: 600;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+                animation: slideInRight 0.4s ease-out forwards, fadeOut 0.4s ease-in forwards 4s;
+                opacity: 0;
+            }
+
+            .toast.success {
+                background: linear-gradient(135deg, #10B981, #059669);
+                border: 1px solid rgba(16, 185, 129, 0.4);
+            }
+
+            .toast.error {
+                background: linear-gradient(135deg, #EF4444, #B91C1C);
+                border: 1px solid rgba(239, 68, 68, 0.4);
+            }
+
+            @keyframes slideInRight {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+
+            @keyframes fadeOut {
+                from { opacity: 1; }
+                to { opacity: 0; display: none; }
+            }
+
+            /* --- Animaciones de Entrada --- */
+            .slide-up {
+                opacity: 0;
+                transform: translateY(30px);
+                animation: slideUpAnim 0.6s ease-out forwards;
+            }
+            
+            @keyframes slideUpAnim {
+                to { opacity: 1; transform: translateY(0); }
+            }
+
+            .delay-1 { animation-delay: 0.1s; }
+            .delay-2 { animation-delay: 0.2s; }
+            .delay-3 { animation-delay: 0.3s; }
+            .delay-4 { animation-delay: 0.4s; }

@@ -24,7 +24,7 @@ services:
     container_name: ucu_sports_web
     restart: always
     ports:
-      - "5000:5000"  # Usar 5001 en el host para evitar conflicto con un servidor local en 5000
+      - "5001:5000"  # Usar 5001 en el host para evitar conflicto con un servidor local en 5000
     environment:
       - DB_HOST=db
       - DB_USER=root

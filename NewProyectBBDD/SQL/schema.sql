@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS actividad (
     nombre VARCHAR(100) NOT NULL, 
     id_disciplina INT NOT NULL, 
     id_espacio INT NOT NULL, 
-    cupo_maximo INT NOT NULL, 
+    cupo_maximo INT NOT NULL CHECK (cupo_maximo > 0), 
     dia_semana ENUM('lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo') NOT NULL, 
     horario_inicio TIME NOT NULL, 
     horario_fin TIME NOT NULL, 
@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS inscripcion (
     id_inscripcion INT AUTO_INCREMENT PRIMARY KEY, 
     est_documento INT, 
     id_actividad INT, 
-    estado ENUM ('confirmada', 'lista_espera') NOT NULL, 
+    estado ENUM ('confirmada', 'lista_espera', 'cancelada') NOT NULL, 
     fecha_inscripcion DATETIME,	 
     FOREIGN KEY (est_documento) REFERENCES estudiantes(documento),  
     FOREIGN KEY (id_actividad) REFERENCES actividad(id_actividad),      
@@ -56,6 +56,7 @@ CREATE TABLE IF NOT EXISTS asistencia (
     FOREIGN KEY (id_inscripcion) REFERENCES inscripcion(id_inscripcion), 
     UNIQUE(id_inscripcion, fecha) 
 );
+
 CREATE TABLE IF NOT EXISTS usuarios (
     id_usuario INT AUTO_INCREMENT PRIMARY KEY,
     usuario VARCHAR(50) NOT NULL UNIQUE,
@@ -74,6 +75,34 @@ BEGIN
     SELECT estado INTO v_estado FROM inscripcion WHERE id_inscripcion = NEW.id_inscripcion;
     IF v_estado != 'confirmada' THEN
         SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error de Regla de Negocio: Solo se puede registrar asistencia de alumnos con inscripcion confirmada.';
+    END IF;
+END //
+DELIMITER ;
+
+-- TRIGGER: Avance automático de lista de espera
+DELIMITER //
+CREATE TRIGGER tg_avance_lista_espera
+AFTER UPDATE ON inscripcion
+FOR EACH ROW
+BEGIN
+    DECLARE v_id_espera INT;
+    
+    -- Si el alumno pasó de confirmada a cancelada
+    IF OLD.estado = 'confirmada' AND NEW.estado = 'cancelada' THEN
+        -- Buscar al primero en lista de espera para la misma actividad
+        SELECT id_inscripcion INTO v_id_espera
+        FROM inscripcion
+        WHERE id_actividad = NEW.id_actividad
+          AND estado = 'lista_espera'
+        ORDER BY fecha_inscripcion ASC
+        LIMIT 1;
+        
+        -- Si existe, pasarlo a confirmada
+        IF v_id_espera IS NOT NULL THEN
+            UPDATE inscripcion
+            SET estado = 'confirmada'
+            WHERE id_inscripcion = v_id_espera;
+        END IF;
     END IF;
 END //
 DELIMITER ;
