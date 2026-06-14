@@ -1,43 +1,57 @@
 @startuml
 actor Usuario as User
 
-package "Frontend" {
-  [Navegador / Cliente HTTP] as Browser
+package "Capa de Presentación (Frontend)" {
+  [Navegador Web / Cliente HTTP] as Browser
+  folder "Templates (HTML/CSS)" {
+    [dashboard.html]
+    [login.html]
+    [register.html]
+  }
 }
 
-package "Backend Flask" {
-  [Main.py] as Main
-  [Reportes Blueprint] as Reportes
-  [database.py\n(get_db_connection)] as DBConn
+package "Capa Lógica (Backend Flask)" {
+  [Main.py (Entrypoint)] as Main
+  
+  package "Módulos (Blueprints)" {
+    [Auth (Autenticación)] as Auth
+    [Inscripciones (Transaccional)] as Inscripciones
+    [ABM (Gestión Entidades)] as ABM
+    [Reportes (Analíticas)] as Reportes
+  }
+
+  [database.py\n(Gestión de Conexiones)] as DBConn
 }
 
 database "MySQL / deportes_ucu" as DB
 
-User -> Browser : abre URL / o /api/reportes/*
-Browser -> Main : HTTP GET/POST
-Main -> Reportes : enrutamiento de endpoints
-Reportes -> DBConn : obtener conexión
-DBConn -> DB : conectar(host=db, port=3306)
-DB -> DBConn : conexión establecida
-DBConn --> Reportes : objeto conexión
-Reportes -> DB : ejecutar consulta SQL
-DB --> Reportes : resultados
-Reportes --> Main : devolver JSON
-Main --> Browser : HTTP 200 / 400 / 500
+User -> Browser : interactúa con la UI
+Browser -> Main : Peticiones HTTP
+Main -> Auth : delega /login, /register
+Main -> Inscripciones : delega /api/inscripciones
+Main -> ABM : delega altas/bajas/modificaciones
+Main -> Reportes : delega /api/reportes
 
+Auth --> DBConn : solicitar conexión
+Inscripciones --> DBConn : solicitar conexión
+ABM --> DBConn : solicitar conexión
+Reportes --> DBConn : solicitar conexión
 
-nota de database.py
-  `database.py` carga variables de entorno
-  o recibe variables desde
-  `docker-compose.yml` en el contenedor `web`.
-end note
+DBConn -> DB : establecer conexión a MySQL
+DB --> DBConn : OK
+Auth -> DB : consultas sobre tabla 'usuarios'
+Inscripciones -> DB : transacciones (SELECT FOR UPDATE)
+ABM -> DB : INSERT/UPDATE entidades
+Reportes -> DB : SELECTs de solo lectura
 
-nota de Main.py
-  `Main.py` registra blueprints
-  y sirve el dashboard web.
-   Validaciones añadidas:
-  - Cliente: `id_inscripcion` input tiene `min=1` y JS valida enteros positivos
-  - Servidor: `POST /api/asistencias` valida `id_asistencia` y `id_inscripcion` no negativo
+Main --> Browser : Renderiza Plantilla o JSON
+Browser --> User : Actualiza Vista
+
+note bottom of Main
+  El backend ahora cumple con **Principios SOLID** y Clean Code.
+  `Main.py` actúa únicamente como orquestador.
+  Toda la lógica de negocio y presentación está desacoplada
+  en módulos (Blueprints) y plantillas (Templates) independientes.
 end note
 
 @enduml

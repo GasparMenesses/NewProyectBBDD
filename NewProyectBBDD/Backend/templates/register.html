@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro - Sistema Deportivo</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="form-card">
+            <h1>Crear usuario</h1>
+
+            <form method="POST">
+                <div class="form-group">
+                    <label>Usuario</label>
+                    <input type="text" name="usuario" required placeholder="Usuario">
+                </div>
+
+                <div class="form-group">
+                    <label>Contraseña</label>
+                    <input type="password" name="password" required placeholder="Contraseña">
+                </div>
+
+                <button type="submit" class="btn-glow">Registrarme</button>
+            </form>
+
+            <p style="color:#FCA5A5;">{{ mensaje }}</p>
+
+            <a class="btn btn-alt" href="/login">Ya tengo cuenta</a>
+        </div>
+    </div>
+</body>
+</html>
