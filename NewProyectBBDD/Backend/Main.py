@@ -3,11 +3,13 @@ from flask import Flask, jsonify, request, render_template_string
 from database import get_db_connection
 from Reportes import reportes_bp  # IMPORTACIÓN CORPORATIVA LIMPIA
 from mysql.connector import Error
+from ABM import abm_bp
 
 app = Flask(__name__)
 
 # Registramos el bloque maestro de reportes con todos sus archivos separados
 app.register_blueprint(reportes_bp)
+app.register_blueprint(abm_bp)
 
 @app.route('/')
 def dashboard():
