@@ -138,6 +138,25 @@ docker compose up --build
 - El contenedor `db` usa MySQL 8.0.
 - El contenedor `web` ejecuta `python Main.py` automáticamente.
 
+## Validaciones añadidas (front & back)
+
+Se implementaron validaciones para evitar ids negativos en el registro de asistencias:
+
+- Cliente (Frontend): el input `ID de Inscripción` ahora incluye `min="1"` y la función JavaScript `enviarFormulario` valida que los campos numéricos (`documento`, `id_inscripcion`, `id_actividad`) sean enteros positivos antes de enviar la petición. Si fallan, muestra un mensaje de error en el formulario.
+- Servidor (Backend): el endpoint `POST /api/asistencias` (archivo `Backend/ABM/asistencias.py`) valida que `id_asistencia` e `id_inscripcion` (si se proveen) sean enteros y no negativos. Devuelve `400` con un mensaje claro si el valor es inválido.
+
+### Cómo probar rápidamente
+
+1) Desde el navegador: intenta enviar el formulario de "Registrar Asistencia" con `ID de Inscripción = -9` — el cliente mostrará un error y no enviará la petición.
+
+2) Desde curl (simula envío directo al backend):
+
+```bash
+curl -X POST http://localhost:5000/api/asistencias -H "Content-Type: application/json" -d '{"id_inscripcion": -9, "fecha": "2026-06-14", "asistio": true}'
+```
+
+La respuesta esperada será un JSON con `error` y código HTTP `400` indicando que `id_inscripcion no puede ser negativo` o similar.
+
 ---
 
 Con esto ya tienes todo lo necesario para ejecutar el proyecto localmente y probar sus endpoints.

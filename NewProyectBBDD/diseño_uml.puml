@@ -25,6 +25,7 @@ DB --> Reportes : resultados
 Reportes --> Main : devolver JSON
 Main --> Browser : HTTP 200 / 400 / 500
 
+
 nota de database.py
   `database.py` carga variables de entorno
   o recibe variables desde
@@ -34,6 +35,9 @@ end note
 nota de Main.py
   `Main.py` registra blueprints
   y sirve el dashboard web.
+   Validaciones añadidas:
+  - Cliente: `id_inscripcion` input tiene `min=1` y JS valida enteros positivos
+  - Servidor: `POST /api/asistencias` valida `id_asistencia` y `id_inscripcion` no negativo
 end note
 
 @enduml
