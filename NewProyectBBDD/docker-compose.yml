@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: ucu_deportes_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: deportes_ucu
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      # Mapeo ordenado alfabéticamente para asegurar el orden de ejecución correcto:
+      - ./Backend/SQL/schema.sql:/docker-entrypoint-initdb.d/1-schema.sql
+      - ./Backend/SQL/data.sql:/docker-entrypoint-initdb.d/2-seed.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-prootpassword"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  web:
+    build: ./Backend
+    container_name: ucu_sports_web
+    restart: always
+    ports:
+      - "5000:5000"
+    environment:
+      - DB_HOST=db
+      - DB_USER=root
+      - DB_PASSWORD=rootpassword
+      - DB_NAME=deportes_ucu
+      - DB_PORT=3306
+    # No inicia el backend hasta que el healthcheck de la base de datos sea exitoso
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  db_data:
