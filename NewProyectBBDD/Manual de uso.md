@@ -23,7 +23,7 @@ Incluye un servicio web en Python que consulta una base de datos MySQL con tabla
 Abre una terminal en:
 
 ```powershell
-cd C:\Users\gdico\PycharmProjects\NewProyectBBDD\NewProyectBBDD
+cd C:PycharmProjects\NewProyectBBDD\NewProyectBBDD
 ```
 
 ### 2. Detener y limpiar cualquier ejecución previa
@@ -79,7 +79,7 @@ Asegúrate de tener Python 3.11 o superior.
 ### 2. Crear entorno virtual y dependencias
 
 ```powershell
-cd C:\Users\gdico\PycharmProjects\NewProyectBBDD\NewProyectBBDD\Backend
+cd C:PycharmProjects\NewProyectBBDD\NewProyectBBDD\Backend
 python -m venv venv
 .\venv\Scripts\Activate.ps1
 pip install -r requirements.txt
