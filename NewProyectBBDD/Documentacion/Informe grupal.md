@@ -61,12 +61,9 @@ Además, se agregaron consultas adicionales para ampliar la funcionalidad del si
 
 - Estudiantes en lista de espera. 
 - Disciplinas sin actividades asociadas.
-<<<<<<< Updated upstream
+- Nivel de ocupación de actividades por espacio físico
 
 **5.Conclusiones**
-=======
-- Nivel de ocupación de actividades por espacio físico
->>>>>>> Stashed changes
 
 El desarrollo del proyecto permitió aplicar conceptos fundamentales de modelado, consultas SQL y desarrollo backend en Python.
 Además, se logró construir una solución funcional capaz de gestionar actividades deportivas universitarias de forma organizada y escalable con los requisitos establecidos en la consigna.
