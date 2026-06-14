@@ -12,7 +12,73 @@ app.secret_key = "sistema_deportivo_universitario_2026"
 # Registramos el bloque maestro de reportes con todos sus archivos separados
 app.register_blueprint(reportes_bp)
 app.register_blueprint(abm_bp)
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    mensaje = ""
 
+    if request.method == 'POST':
+        usuario = request.form.get('usuario')
+        password = request.form.get('password')
+
+        if not usuario or not password:
+            mensaje = "Debe completar usuario y contraseña"
+        else:
+            password_hash = generate_password_hash(password)
+
+            conn = get_db_connection()
+            cursor = conn.cursor(dictionary=True)
+
+            try:
+                cursor.execute("""
+                    INSERT INTO usuarios (usuario, password_hash)
+                    VALUES (%s, %s)
+                """, (usuario, password_hash))
+
+                conn.commit()
+                return redirect(url_for('login'))
+
+            except Error:
+                mensaje = "Ese usuario ya existe"
+
+            finally:
+                cursor.close()
+                conn.close()
+
+    return render_template_string("""
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <title>Registro - Sistema Deportivo</title>
+        <link rel="stylesheet" href="/Styles/styles.css">
+    </head>
+    <body>
+        <div class="container">
+            <div class="form-card">
+                <h1>Crear usuario</h1>
+
+                <form method="POST">
+                    <div class="form-group">
+                        <label>Usuario</label>
+                        <input type="text" name="usuario" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Contraseña</label>
+                        <input type="password" name="password" required>
+                    </div>
+
+                    <button type="submit">Registrarme</button>
+                </form>
+
+                <p style="color:#FCA5A5;">{{ mensaje }}</p>
+
+                <a class="btn btn-alt" href="/login">Ya tengo cuenta</a>
+            </div>
+        </div>
+    </body>
+    </html>
+    """, mensaje=mensaje)
 @app.route('/')
 def dashboard():
     html_layout = """

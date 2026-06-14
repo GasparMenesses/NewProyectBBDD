@@ -55,7 +55,14 @@ CREATE TABLE IF NOT EXISTS asistencia (
     asistio BOOLEAN NOT NULL, 
     FOREIGN KEY (id_inscripcion) REFERENCES inscripcion(id_inscripcion), 
     UNIQUE(id_inscripcion, fecha) 
-); 
+);
+CREATE TABLE usuarios (
+    id_usuario INT AUTO_INCREMENT PRIMARY KEY,
+    usuario VARCHAR(50) NOT NULL UNIQUE,
+    password_hash VARCHAR(255) NOT NULL,
+    fecha_creacion DATETIME DEFAULT CURRENT_TIMESTAMP,
+    activo BOOLEAN DEFAULT TRUE
+);
 
 -- TRIGGER: Validación estricta en Base de Datos (Regla de negocio 5)
 DELIMITER //
