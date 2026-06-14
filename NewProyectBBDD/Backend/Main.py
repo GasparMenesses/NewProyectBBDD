@@ -1,11 +1,13 @@
 import os
-from flask import Flask, jsonify, request, render_template_string
+from flask import Flask, jsonify, request, render_template_string, session, redirect, url_for
+from werkzeug.security import generate_password_hash, check_password_hash
 from database import get_db_connection
 from Reportes import reportes_bp  # IMPORTACIÓN CORPORATIVA LIMPIA
 from mysql.connector import Error
 from ABM import abm_bp
 
 app = Flask(__name__, static_folder="Styles", static_url_path="/Styles")
+app.secret_key = "sistema_deportivo_universitario_2026"
 
 # Registramos el bloque maestro de reportes con todos sus archivos separados
 app.register_blueprint(reportes_bp)
