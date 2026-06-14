@@ -1,8 +1,19 @@
 from flask import Blueprint, jsonify, request
 from database import get_db_connection
 from mysql.connector import Error
+import datetime
 
 actividades_bp = Blueprint('actividades', __name__)
+
+
+def serializar_fila(row):
+    for key, value in row.items():
+        if isinstance(value, (datetime.date, datetime.time, datetime.datetime)):
+            row[key] = value.isoformat()
+        elif isinstance(value, datetime.timedelta):
+            row[key] = str(value)
+    return row
+
 
 @actividades_bp.route('/api/actividades', methods=['GET'])
 def listar_actividades():
@@ -10,7 +21,9 @@ def listar_actividades():
     cursor = conn.cursor(dictionary=True)
     try:
         cursor.execute("SELECT * FROM actividad")
-        return jsonify(cursor.fetchall()), 200
+        actividades = cursor.fetchall()
+        actividades = [serializar_fila(row) for row in actividades]
+        return jsonify(actividades), 200
     finally:
         cursor.close()
         conn.close()
