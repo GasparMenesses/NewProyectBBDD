@@ -13,6 +13,6 @@ Como equipo igualmente fuimos todos parte del desarrollo del obligatorio, por lo
 Una de las principales dificultades que tuve durante el desarrollo fue comprender el funcionamiento de Docker y cómo se relacionaban entre sí los distintos componentes del proyecto.
 
 # Conclusion:
-Considero qeu el proyecto fue una gran experiencia ya que permitió aplicar conocomientos en un caso real.
+Considero que el proyecto fue una gran experiencia ya que permitió aplicar conocomientos en un caso real.
 Me quedo muy conforme con lo entregado y con como nos desarrollamos en equipo para todos poder participar de una manera equitativa y comprender lo que ibamos realizando. 
 
