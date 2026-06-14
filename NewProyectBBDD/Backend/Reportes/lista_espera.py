@@ -1,5 +1,5 @@
 from flask import Blueprint
-from reportes.utils import ejecutar_consulta_reporte
+from .utils import ejecutar_consulta_reporte
 
 r8a_bp = Blueprint('r8a', __name__)
 

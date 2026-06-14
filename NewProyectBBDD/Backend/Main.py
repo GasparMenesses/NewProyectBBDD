@@ -1,7 +1,7 @@
 import os
 from flask import Flask, jsonify, request, render_template_string
 from database import get_db_connection
-from reportes import reportes_bp  # IMPORTACIÓN CORPORATIVA LIMPIA
+from Reportes import reportes_bp  # IMPORTACIÓN CORPORATIVA LIMPIA
 from mysql.connector import Error
 
 app = Flask(__name__)
