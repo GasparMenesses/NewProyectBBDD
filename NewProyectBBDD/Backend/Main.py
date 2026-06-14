@@ -20,25 +20,215 @@ def dashboard():
         <meta charset="UTF-8">
         <title>UCU Deportes - Arquitectura Empresarial</title>
         <style>
-            body { font-family: 'Segoe UI', sans-serif; background-color: #f3f4f6; margin: 0; padding: 30px; }
-            .container { max-width: 1000px; margin: auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-            h1 { color: #1e3a8a; border-bottom: 3px solid #3b82f6; padding-bottom: 10px; margin-top: 0; }
-            h3 { color: #4b5563; margin-top: 25px; }
-            .btn-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; }
-            .btn { background: #2563eb; color: white; padding: 12px; text-decoration: none; text-align: center; border-radius: 6px; font-weight: 500; transition: 0.2s; }
-            .btn:hover { background: #1d4ed8; }
-            .btn-alt { background: #10b981; } .btn-alt:hover { background: #059669; }
-            .form-card { background: #f8fafc; padding: 20px; border-radius: 12px; border: 1px solid #e2e8f0; margin-top: 25px; }
-            .grid-two-column { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; }
-            .form-group { display: grid; gap: 12px; margin-bottom: 18px; }
-            label { font-weight: 600; color: #334155; }
-            input, select { width: 100%; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; }
-            button[type="submit"] { background: #2563eb; color: white; border: none; border-radius: 8px; padding: 14px 18px; cursor: pointer; font-weight: 600; }
-            button[type="submit"]:hover { background: #1d4ed8; }
-            .message { margin-top: 16px; padding: 14px 16px; border-radius: 8px; font-weight: 600; display: none; }
-            .message.success { background: #dcfce7; color: #166534; border: 1px solid #bef264; }
-            .message.error { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
-            .footer-status { margin-top: 40px; background: #eff6ff; padding: 15px; border-left: 5px solid #2563eb; font-size: 14px; color: #1e40af; }
+            body {
+                font-family: 'Segoe UI', sans-serif;
+                background: #0D0D1A;
+                margin: 0;
+                padding: 30px;
+                color: #F0F0FF;
+            }
+        
+            body::before {
+                content: "";
+                position: fixed;
+                inset: 0;
+                pointer-events: none;
+        
+                background:
+                    radial-gradient(circle at top right,
+                        rgba(6,182,212,0.12),
+                        transparent 35%),
+                    radial-gradient(circle at bottom left,
+                        rgba(124,58,237,0.15),
+                        transparent 40%);
+            }
+        
+            .container {
+                max-width: 1200px;
+                margin: auto;
+                background: #1A1A2E;
+                padding: 30px;
+                border-radius: 20px;
+                border: 1px solid rgba(124,58,237,0.25);
+                box-shadow: 0 0 40px rgba(124,58,237,0.15);
+                position: relative;
+                z-index: 1;
+            }
+        
+            h1 {
+                color: #F0F0FF;
+                border-bottom: 3px solid #7C3AED;
+                padding-bottom: 10px;
+                margin-top: 0;
+            }
+        
+            h3 {
+                color: #06B6D4;
+                margin-top: 25px;
+            }
+        
+            p {
+                color: #CFCFFB;
+            }
+        
+            .btn-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: 15px;
+            }
+        
+            .grid-two-column {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+                gap: 16px;
+            }
+        
+            .form-card {
+                background: rgba(255,255,255,0.02);
+                padding: 20px;
+                border-radius: 15px;
+                border: 1px solid rgba(124,58,237,0.20);
+                box-shadow: 0 0 20px rgba(124,58,237,0.10);
+                margin-top: 25px;
+            }
+        
+            .form-group {
+                display: grid;
+                gap: 12px;
+                margin-bottom: 18px;
+            }
+        
+            label {
+                font-weight: 600;
+                color: #E5E7EB;
+            }
+        
+            input,
+            select {
+                width: 100%;
+                padding: 10px 12px;
+                background: #111827;
+                color: #F0F0FF;
+                border: 1px solid #374151;
+                border-radius: 8px;
+                font-size: 14px;
+                box-sizing: border-box;
+            }
+        
+            input:focus,
+            select:focus {
+                outline: none;
+                border-color: #06B6D4;
+                box-shadow: 0 0 10px rgba(6,182,212,0.4);
+            }
+        
+            button[type="submit"] {
+                background: linear-gradient(
+                    135deg,
+                    #7C3AED,
+                    #5B21B6
+                );
+        
+                color: white;
+                border: none;
+                border-radius: 10px;
+                padding: 14px;
+                cursor: pointer;
+                font-weight: 600;
+                transition: 0.3s;
+            }
+        
+            button[type="submit"]:hover {
+                background: linear-gradient(
+                    135deg,
+                    #06B6D4,
+                    #0891B2
+                );
+        
+                box-shadow: 0 0 15px rgba(6,182,212,0.5);
+            }
+        
+            .btn {
+                background: linear-gradient(
+                    135deg,
+                    #7C3AED,
+                    #4C1D95
+                );
+        
+                color: white;
+                padding: 14px;
+                text-decoration: none;
+                text-align: center;
+                border-radius: 10px;
+                font-weight: 600;
+        
+                border: 1px solid rgba(124,58,237,0.4);
+        
+                transition: all 0.3s ease;
+        
+                box-shadow:
+                    0 0 10px rgba(124,58,237,0.3),
+                    0 0 20px rgba(124,58,237,0.15);
+            }
+        
+            .btn:hover {
+                background: linear-gradient(
+                    135deg,
+                    #06B6D4,
+                    #0891B2
+                );
+        
+                transform: translateY(-2px);
+        
+                box-shadow:
+                    0 0 15px rgba(6,182,212,0.5),
+                    0 0 25px rgba(6,182,212,0.25);
+            }
+        
+            .btn-alt {
+                background: linear-gradient(
+                    135deg,
+                    #06B6D4,
+                    #155E75
+                );
+            }
+        
+            .btn-alt:hover {
+                background: linear-gradient(
+                    135deg,
+                    #7C3AED,
+                    #5B21B6
+                );
+            }
+        
+            .message {
+                margin-top: 16px;
+                padding: 14px;
+                border-radius: 8px;
+                font-weight: 600;
+                display: none;
+            }
+        
+            .message.success {
+                background: rgba(34,197,94,0.15);
+                color: #86EFAC;
+                border: 1px solid rgba(34,197,94,0.4);
+            }
+        
+            .message.error {
+                background: rgba(239,68,68,0.15);
+                color: #FCA5A5;
+                border: 1px solid rgba(239,68,68,0.4);
+            }
+        
+            .footer-status {
+                margin-top: 40px;
+                background: rgba(255,255,255,0.03);
+                padding: 18px;
+                border-left: 4px solid #06B6D4;
+                border-radius: 10px;
+                color: #E0E7FF;
+            }
         </style>
     </head>
     <body>
