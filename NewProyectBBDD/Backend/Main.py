@@ -37,8 +37,12 @@ def register():
                 conn.commit()
                 return redirect(url_for('login'))
 
-            except Error:
-                mensaje = "Ese usuario ya existe"
+
+            except Error as e:
+
+                print("ERROR MYSQL:", e)
+
+                mensaje = str(e)
 
             finally:
                 cursor.close()
