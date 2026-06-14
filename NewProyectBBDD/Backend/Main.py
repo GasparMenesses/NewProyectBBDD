@@ -35,7 +35,7 @@ def register():
                 """, (usuario, password_hash))
 
                 conn.commit()
-                return "Usuario creado correctamente. Ahora falta crear el login."
+                return redirect(url_for('login'))
 
 
             except Error as e:
@@ -78,6 +78,69 @@ def register():
                 <p style="color:#FCA5A5;">{{ mensaje }}</p>
 
                 <a class="btn btn-alt" href="/login">Ya tengo cuenta</a>
+            </div>
+        </div>
+    </body>
+    </html>
+    """, mensaje=mensaje)
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    mensaje = ""
+
+    if request.method == 'POST':
+        usuario = request.form.get('usuario')
+        password = request.form.get('password')
+
+        conn = get_db_connection()
+        cursor = conn.cursor(dictionary=True)
+
+        cursor.execute("""
+            SELECT *
+            FROM usuarios
+            WHERE usuario = %s AND activo = TRUE
+        """, (usuario,))
+
+        usuario_db = cursor.fetchone()
+
+        cursor.close()
+        conn.close()
+
+        if usuario_db and check_password_hash(usuario_db['password_hash'], password):
+            session['usuario'] = usuario_db['usuario']
+            return redirect(url_for('dashboard'))
+
+        mensaje = "Usuario o contraseña incorrectos"
+
+    return render_template_string("""
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <title>Login - Sistema Deportivo</title>
+        <link rel="stylesheet" href="/Styles/styles.css">
+    </head>
+    <body>
+        <div class="container">
+            <div class="form-card">
+                <h1>Iniciar sesión</h1>
+
+                <form method="POST">
+                    <div class="form-group">
+                        <label>Usuario</label>
+                        <input type="text" name="usuario" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Contraseña</label>
+                        <input type="password" name="password" required>
+                    </div>
+
+                    <button type="submit">Ingresar</button>
+                </form>
+
+                <p style="color:#FCA5A5;">{{ mensaje }}</p>
+
+                <a class="btn btn-alt" href="/register">Crear usuario</a>
             </div>
         </div>
     </body>
